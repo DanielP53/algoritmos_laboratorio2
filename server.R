@@ -5,6 +5,9 @@ use_condaenv(condaenv = "base")
 
 source_python("algoritmos.py")
 
+np <- import("numpy")
+
+
 #tableOut, soluc = newtonSolverX(-5, "2x^5 - 3", 0.0001)
 
 shinyServer(function(input, output) {
@@ -41,11 +44,34 @@ shinyServer(function(input, output) {
     gdCalculate<-eventReactive(input$gdMethodResolve, {
       matrixString <- input$gdMatrix
       filas <- strsplit(matrixString, " ")[[1]]
-      matriz <- do.call(rbind, lapply(filas, function(fila) as.numeric(unlist(strsplit(fila, ",")))))
-      print(filas)
-      c <- input$gdC
-      x0 <- input$gdInitialSol
-      outs<-matriz
+      Q <- do.call(rbind, lapply(filas, function(fila) as.numeric(unlist(strsplit(fila, ",")))))
+      cString <- input$gdC
+      c <- np$array(as.numeric(unlist(strsplit(cString, ","))))
+      xString <- input$gdInitial
+      x <- np$array(as.numeric(unlist(strsplit(xString, ","))))
+      epsilon <- as.numeric(input$gdTolerance)
+      max_iter <- as.integer(input$gdMethodMaxIter)
+      stepSize <- as.character(input$gdStepSize)
+      alphaValue <- as.numeric(input$gdAlphaValue)
+      
+      if (stepSize == 'constant') {
+        outs<-gradient_descent(Q, c, x, epsilon, max_iter, step_size_type=stepSize, alpha_value=alphaValue)
+      } else {
+        outs<-gradient_descent(Q, c, x, epsilon, max_iter, step_size_type=stepSize)
+      }
+        
+      
+      outs <- do.call(rbind, lapply(outs, function(row) {
+        data.frame(
+          Iteration = row[[1]],
+          x_k = paste(row[[2]], collapse = ", "),
+          p_k = paste(row[[3]], collapse = ", "),
+          Norm_Gradient = row[[4]]
+        )
+      }))
+      
+      #outs<- Q
+      outs
     })
     
     

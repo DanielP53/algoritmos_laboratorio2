@@ -146,14 +146,17 @@ def add(a, b):
   return "El resultado es: " + str(resultado)
 
 #Gradient Descent
+
 def gradient_descent(Q, c, x0, epsilon, max_iter, step_size_type='constant', alpha_value=0.1):
-    x = x0
+    x = np.array(x0)
+    results = []  # Lista para almacenar los resultados
+    
     for k in range(max_iter):
         grad = gradient_quadratic(x, Q, c)
         norm_grad = np.linalg.norm(grad)
-
+        
         if norm_grad < epsilon:
-            print(f'Convergió en la iteración {k}, ∇f(x) = {norm_grad}')
+            results.append((k, x.tolist(), (-grad).tolist(), norm_grad))
             break
 
         if step_size_type == 'exact':
@@ -165,11 +168,15 @@ def gradient_descent(Q, c, x0, epsilon, max_iter, step_size_type='constant', alp
         else:
             raise ValueError("Tipo de step size no reconocido")
 
+        p_k = -grad
         x = x - alpha * grad
+        
+        # Almacena los resultados de la iteración
+        results.append((k, x.tolist(), p_k.tolist(), norm_grad))
+        
+    print("Results:", results)  # Añadido para depuració
 
-        print(f'Iteración {k}: x = {x}, ∇f(x) = {norm_grad}, α = {alpha}')
-
-    return x
+    return results
 
 def quadratic_function(x, Q, c):
     return 0.5 * np.dot(x.T, np.dot(Q, x)) + np.dot(c.T, x)

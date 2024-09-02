@@ -58,6 +58,9 @@ gradientMethodInitialSolLabel = "Solución inicial $$x_0$$solo ingresar separado
 gradientMethodStepSizeId = "gdStepSize"
 gradientMethodStepSizeLabel = "Tipo de Stepsize, 'exact', 'variable', 'constant'"
 
+gradientMethodAlphaValueId = "gdAlphaValue"
+gradientMethodAlphaValueLabel = "Alpha Value para Step Size exacto'"
+
 gradientMethodMaxIterationId = "gdMethodMaxIter"
 gradientMethodMaxIterationLabel = "Máximo de iteraciones $$k_{max}$$"
 
@@ -118,6 +121,7 @@ dashboardPage(
                       textInput(gradientMethodCId, gradientMethodCLabel),
                       textInput(gradientMethodInitialSolId, withMathJax(gradientMethodInitialSolLabel)),
                       textInput(gradientMethodStepSizeId, gradientMethodStepSizeLabel),
+                      textInput(gradientMethodAlphaValueId, gradientMethodAlphaValueLabel),
                       textInput(gradientMethodMaxIterationId, withMathJax(gradientMethodMaxIterationLabel)),
                       textInput(gradientMethodTolId, gradientMethodTolLabel),
                       actionButton(gradientMethodSolveButtonId, gradientMethodSolveButtonLabel)
