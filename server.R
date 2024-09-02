@@ -48,9 +48,7 @@ shinyServer(function(input, output) {
 
     #Evento y evaluacion de gradient descent
     gdCalculate<-eventReactive(input$gdMethodResolve, {
-<<<<<<< HEAD
 
-=======
       matrixString <- input$gdMatrix
       filas <- strsplit(matrixString, " ")[[1]]
       matriz <- do.call(rbind, lapply(filas, function(fila) as.numeric(unlist(strsplit(fila, ",")))))
@@ -58,7 +56,6 @@ shinyServer(function(input, output) {
       c <- input$gdC
       x0 <- input$gdInitialSol
       outs<-matriz
->>>>>>> 81fa908e530d23ada3c9c6401c903292b75e77dc
     })
     
     
@@ -72,14 +69,13 @@ shinyServer(function(input, output) {
       newtonCalculate()
     })
     
-<<<<<<< HEAD
     output$salidaRosen<-renderTable({
       rosenbrocCalculate()
-=======
+    })
+    
     #Render metodo GD
     output$salidaGradient<-renderTable({
       gdCalculate()
->>>>>>> 81fa908e530d23ada3c9c6401c903292b75e77dc
     })
     
 })
