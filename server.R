@@ -37,10 +37,18 @@ shinyServer(function(input, output) {
       outs
     })
     
+    rosenbrocCalculate<-eventReactive(input$rosenMethodSolve, {
+      x0 <- input$rosenX0Input[1]
+      print(x0)
+      stepSize = input$rosenStepSize[1]
+      print(stepSize)
+      outs<-runRosenbrock(x0, stepSize)
+      outs
+    })
+
     #Evento y evaluacion de gradient descent
     gdCalculate<-eventReactive(input$gdMethodResolve, {
-      eq <- input$gdFunction[1]
-      print(eq)
+
     })
     
     
@@ -54,5 +62,8 @@ shinyServer(function(input, output) {
       newtonCalculate()
     })
     
+    output$salidaRosen<-renderTable({
+      rosenbrocCalculate()
+    })
     
 })
