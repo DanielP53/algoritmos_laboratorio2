@@ -42,34 +42,35 @@ newtonMethodTolLabel = "Tolerancia"
 newtonMethodSolveButtonId = "newtonMethodResolve"
 newtonMethodSolveButtonLabel = "Resolver por Netwon-Raphson"
 
-# Netwon Rapshon
-
-
 # Gradient Descent
-newtonMethodTabId = "Gradient Descent"
-newtonMethodTabTitle = "Método Gradient Descent"
+gradientMethodTabId = "GradientDescent"
+gradientMethodTabTitle = "Método Gradient Descent"
 
-newtonMethodFunctionId = "newtonFunction"
-newtonMethodFunctionLabel = "Función diferenciable"
+gradientMethodFunctionId = "gdFunction"
+gradientMethodFunctionLabel = "Función diferenciable"
 
-newtonMethodInitialSolId = "gdInitial"
-newtonMethodInitialSolLabel = "Solución inicial $$x_0$$"
+gradientMethodStepSizeId = "gdStepSize"
+gradientMethodStepSizeLabel = "Tipo de Stepsize, 'exact', 'variable', 'constant'"
 
-newtonMethodMaxIterationId = "gdMethodMaxIter"
-newtonMethodMaxIterationLabel = "Máximo de iteraciones $$k_{max}$$"
+gradientMethodInitialSolId = "gdInitial"
+gradientMethodInitialSolLabel = "Solución inicial $$x_0$$"
 
-newtonMethodTolId = "newtonTolerance"
-newtonMethodTolLabel = "Tolerancia"
+gradientMethodMaxIterationId = "gdMethodMaxIter"
+gradientMethodMaxIterationLabel = "Máximo de iteraciones $$k_{max}$$"
 
-newtonMethodSolveButtonId = "newtonMethodResolve"
-newtonMethodSolveButtonLabel = "Resolver por Netwon-Raphson"
+gradientMethodTolId = "gdTolerance"
+gradientMethodTolLabel = "Tolerancia"
+
+gradientMethodSolveButtonId = "gdMethodResolve"
+gradientMethodSolveButtonLabel = "Resolver por Gradient Descent"
 
 dashboardPage(
     dashboardHeader(title = "Algoritmos en la Ciencia de Datos"),
     dashboardSidebar(
         sidebarMenu(
             menuItem(tabBisectionTitle, tabName = tabIdBisectionMethod),
-            menuItem(newtonMethodTabTitle, tabName = newtonMethodTabId)
+            menuItem(newtonMethodTabTitle, tabName = newtonMethodTabId),
+            menuItem(gradientMethodTabTitle, tabName = gradientMethodTabId)
         )
     ),
     dashboardBody(
@@ -95,7 +96,19 @@ dashboardPage(
                     textInput(newtonMethodTolId, newtonMethodTolLabel),
                     actionButton(newtonMethodSolveButtonId, newtonMethodSolveButtonLabel)
                     ),
-                    tableOutput("salidaNewton"))
+                    tableOutput("salidaNewton")),
+
+            tabItem(gradientMethodTabId,
+                    h1(gradientMethodTabTitle),
+                    box(
+                      textInput(gradientMethodFunctionId, gradientMethodFunctionLabel),
+                      textInput(gradientMethodStepSizeId, gradientMethodStepSizeLabel),
+                      textInput(gradientMethodInitialSolId, withMathJax(gradientMethodInitialSolLabel)),
+                      textInput(gradientMethodMaxIterationId, withMathJax(gradientMethodMaxIterationLabel)),
+                      textInput(gradientMethodTolId, gradientMethodTolLabel),
+                      actionButton(gradientMethodSolveButtonId, gradientMethodSolveButtonLabel)
+                    ),
+                    tableOutput("salidaGradient"))
         )
     )
 )

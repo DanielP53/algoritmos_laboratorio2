@@ -143,3 +143,55 @@ def add(a, b):
   b = int(b)
   resultado = a + b
   return "El resultado es: " + str(resultado)
+
+#Gradient Descent
+def gradient_descent(Q, c, x0, epsilon, max_iter, step_size_type='constant', alpha_value=0.1):
+    x = x0
+    for k in range(max_iter):
+        grad = gradient_quadratic(x, Q, c)
+        norm_grad = np.linalg.norm(grad)
+
+        if norm_grad < epsilon:
+            print(f'Convergió en la iteración {k}, ∇f(x) = {norm_grad}')
+            break
+
+        if step_size_type == 'exact':
+            alpha = exact_step_size(Q, c, x, grad)
+        elif step_size_type == 'constant':
+            alpha = alpha_value
+        elif step_size_type == 'variable':
+            alpha = 1 / (k + 1)
+        else:
+            raise ValueError("Tipo de step size no reconocido")
+
+        x = x - alpha * grad
+
+        print(f'Iteración {k}: x = {x}, ∇f(x) = {norm_grad}, α = {alpha}')
+
+    return x
+
+def quadratic_function(x, Q, c):
+    return 0.5 * np.dot(x.T, np.dot(Q, x)) + np.dot(c.T, x)
+
+def gradient_quadratic(x, Q, c):
+    return np.dot(Q, x) + c
+
+def exact_step_size(Q, c, x, grad):
+    alpha = sym.symbols('alpha')
+
+    x_new = x - alpha * grad
+
+    f_expr = 0.5 * sym.Matrix(x_new).T * sym.Matrix(Q) * sym.Matrix(x_new) + sym.Matrix(c).T * sym.Matrix(x_new)
+    f_expr = f_expr[0]
+
+    f_prime = sym.diff(f_expr, alpha)
+
+    f_prime_numeric = sym.lambdify(alpha, f_prime, 'numpy')
+
+    alpha_opt = sym.solve(f_prime, alpha)
+
+    for opt in alpha_opt:
+        if opt.is_real and opt > 0:
+            return float(opt)
+
+    return 1.0

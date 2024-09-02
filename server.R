@@ -37,6 +37,12 @@ shinyServer(function(input, output) {
       outs
     })
     
+    #Evento y evaluacion de gradient descent
+    gdCalculate<-eventReactive(input$gdMethodResolve, {
+      eq <- input$gdFunction[1]
+      print(eq)
+    })
+    
     
     #REnder metodo de Newton
     output$salidaTabla<-renderTable({
