@@ -241,7 +241,7 @@ def rosen_gradient_descent(f, grad_f, x0, alpha = 0.5, tol = 1e-8, max_iter = 10
       #print(f"xk = {xk}")
       grad_norm = np.linalg.norm(grad)
 
-      results.append([k+1, array_to_string(validatedArray(xk.copy())), array_to_string(validatedArray(pk)), check_invalid(grad_norm)])
+      results.append([k+1, array_to_string(validatedArray(xk.copy())), array_to_string(validatedArray(grad)), check_invalid(grad_norm)])
 
       if (grad_norm < tol):
          break
