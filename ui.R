@@ -46,14 +46,17 @@ newtonMethodSolveButtonLabel = "Resolver por Netwon-Raphson"
 gradientMethodTabId = "GradientDescent"
 gradientMethodTabTitle = "Método Gradient Descent"
 
-gradientMethodFunctionId = "gdFunction"
-gradientMethodFunctionLabel = "Función diferenciable"
+gradientMethodMatrixId = "gdMatrix"
+gradientMethodMatrixLabel = HTML("Matriz Q, Para ingresar la matriz ingrese la linea separada por comas y espacios en blanco: 1,2,3&nbsp&nbsp4,5,6&nbsp&nbsp7,8,9")
+
+gradientMethodCId = "gdC"
+gradientMethodCLabel = "Vector C, ingresar separado por comas: 1, 4, 5"
+
+gradientMethodInitialSolId = "gdInitial"
+gradientMethodInitialSolLabel = "Solución inicial $$x_0$$solo ingresar separados por comas: 2, 1, 3"
 
 gradientMethodStepSizeId = "gdStepSize"
 gradientMethodStepSizeLabel = "Tipo de Stepsize, 'exact', 'variable', 'constant'"
-
-gradientMethodInitialSolId = "gdInitial"
-gradientMethodInitialSolLabel = "Solución inicial $$x_0$$"
 
 gradientMethodMaxIterationId = "gdMethodMaxIter"
 gradientMethodMaxIterationLabel = "Máximo de iteraciones $$k_{max}$$"
@@ -111,9 +114,10 @@ dashboardPage(
             tabItem(gradientMethodTabId,
                     h1(gradientMethodTabTitle),
                     box(
-                      textInput(gradientMethodFunctionId, gradientMethodFunctionLabel),
-                      textInput(gradientMethodStepSizeId, gradientMethodStepSizeLabel),
+                      textInput(gradientMethodMatrixId, gradientMethodMatrixLabel),
+                      textInput(gradientMethodCId, gradientMethodCLabel),
                       textInput(gradientMethodInitialSolId, withMathJax(gradientMethodInitialSolLabel)),
+                      textInput(gradientMethodStepSizeId, gradientMethodStepSizeLabel),
                       textInput(gradientMethodMaxIterationId, withMathJax(gradientMethodMaxIterationLabel)),
                       textInput(gradientMethodTolId, gradientMethodTolLabel),
                       actionButton(gradientMethodSolveButtonId, gradientMethodSolveButtonLabel)
