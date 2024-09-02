@@ -211,23 +211,52 @@ def rosenbrock(x):
     return 100 * (x[1] - x[0]**2)**2 + (1 - x[0])**2
 
 def grad_rosenbrock(x):
-    df_dx1 = -400 * x[0] * (x[1] - x[0]**2) - 2 * (1 - x[0])
-    df_dx2 = 200 * (x[1] - x[0]**2)
-    return np.array([df_dx1, df_dx2])
+	df_dx1 = -400*x[0]*(x[1]-x[0]**2)-2*(1-x[0])
+	df_dx2 = 200 * (x[0] - x[1]**2)
+	return np.array([df_dx1, df_dx2])
+
+def clamp_values(value, threshold=1e6):
+    return round(value, 4)
+
+def check_invalid(value):
+    if np.isnan(value) or np.isinf(value):
+        return "Error"
+    return clamp_values(value)
+
+def validatedArray(arr):
+   return [check_invalid(arr[0]), check_invalid(arr[1])]
+
+def array_to_string(arr):
+    return ', '.join(map(str, arr))
 
 def rosen_gradient_descent(f, grad_f, x0, alpha = 0.5, tol = 1e-8, max_iter = 1000):
    xk = x0
    results = []
    for k in range(max_iter):
       grad = grad_f(xk)
-      pk = -grad
-      xk = xk + alpha * pk
+      pk = grad
+      #print(f"grad = {grad}")
+      #print()
+      xk = xk - alpha * grad
+      #print(f"xk = {xk}")
       grad_norm = np.linalg.norm(grad)
 
-      results.append([k+1, xk.copy(), pk, grad_norm])
+      results.append([k+1, array_to_string(validatedArray(xk.copy())), array_to_string(validatedArray(pk)), check_invalid(grad_norm)])
 
       if (grad_norm < tol):
          break
    df = pd.DataFrame(results, columns=['Iteración', 'x_k', 'p_k', '||grad_f(x_k)||'])
+   print(df)
    return df
    
+def runRosenbrock(x_0, alpha):
+   x_0 = x_0.split(',')
+   print(x_0)
+   x_0Arr = np.array([float(x_0[0]), float(x_0[1])])
+   alpha = float(alpha)
+
+   df = rosen_gradient_descent(rosenbrock, grad_rosenbrock, x0=x_0Arr, alpha=alpha)
+
+   return df
+
+#runRosenbrock('0,0', '0.05')
