@@ -67,13 +67,23 @@ gradientMethodTolLabel = "Tolerancia"
 gradientMethodSolveButtonId = "gdMethodResolve"
 gradientMethodSolveButtonLabel = "Resolver por Gradient Descent"
 
+rosenMethodTabTitle = "Función Rosenbrock"
+rosenMethodTabId = "rosenFunction"
+rosenx0InputId = "rosenX0Input"
+rosenx0InputLabel = "x_0"
+rosenStepSizeId = "rosenStepSize"
+rosenStepSizeLabel = "Step size"
+rosenMethodSolveButtonId = "rosenMethodSolve"
+rosenMethodSolveButtonLabel = "Resolver función Rosen"
+
 dashboardPage(
     dashboardHeader(title = "Algoritmos en la Ciencia de Datos"),
     dashboardSidebar(
         sidebarMenu(
             menuItem(tabBisectionTitle, tabName = tabIdBisectionMethod),
             menuItem(newtonMethodTabTitle, tabName = newtonMethodTabId),
-            menuItem(gradientMethodTabTitle, tabName = gradientMethodTabId)
+            menuItem(gradientMethodTabTitle, tabName = gradientMethodTabId),
+            menuItem(rosenMethodTabTitle, tabName = rosenMethodTabId)
         )
     ),
     dashboardBody(
@@ -112,7 +122,15 @@ dashboardPage(
                       textInput(gradientMethodTolId, gradientMethodTolLabel),
                       actionButton(gradientMethodSolveButtonId, gradientMethodSolveButtonLabel)
                     ),
-                    tableOutput("salidaGradient"))
+                    tableOutput("salidaGradient")),
+            tabItem(rosenMethodTabId,
+                    h1(rosenMethodTabTitle),
+                    box(
+                      textInput(rosenx0InputId, rosenx0InputLabel),
+                      textInput(rosenStepSizeId, rosenStepSizeLabel),
+                      actionButton(rosenMethodSolveButtonId, rosenMethodSolveButtonLabel)
+                    ),
+                    tableOutput("salidaRosen"))
         )
     )
 )

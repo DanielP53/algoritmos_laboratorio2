@@ -1,6 +1,7 @@
 import pandas as pd
 import sympy as sym
 import re
+import numpy as np
 
 def processEquation(equation):
     strOut = equation.replace('^', '**')
@@ -195,3 +196,31 @@ def exact_step_size(Q, c, x, grad):
             return float(opt)
 
     return 1.0
+
+
+# Rosenbrock
+
+def rosenbrock(x):
+    return 100 * (x[1] - x[0]**2)**2 + (1 - x[0])**2
+
+def grad_rosenbrock(x):
+    df_dx1 = -400 * x[0] * (x[1] - x[0]**2) - 2 * (1 - x[0])
+    df_dx2 = 200 * (x[1] - x[0]**2)
+    return np.array([df_dx1, df_dx2])
+
+def rosen_gradient_descent(f, grad_f, x0, alpha = 0.5, tol = 1e-8, max_iter = 1000):
+   xk = x0
+   results = []
+   for k in range(max_iter):
+      grad = grad_f(xk)
+      pk = -grad
+      xk = xk + alpha * pk
+      grad_norm = np.linalg.norm(grad)
+
+      results.append([k+1, xk.copy(), pk, grad_norm])
+
+      if (grad_norm < tol):
+         break
+   df = pd.DataFrame(results, columns=['Iteración', 'x_k', 'p_k', '||grad_f(x_k)||'])
+   return df
+   
